@@ -1,0 +1,20 @@
+BACKEND
+
+install nodemon for running the server, nodemon <db_coonect_file_name>
+using token i.e we get from header we verify the user and we get user_id in return, using this id we can update the user data
+we are using bcrypt to hash the password, salt is the no. of extra character that get added in password for hashing
+we are using multer to store profile_pic, we have only allowed jpeg and png 
+we need to use enctype in form to submit input type == file
+content-type == application/json
+we have used JWT token auth system
+validation of data using @hapi/joi 
+mongodb: allowed ip access: all
+mongodb: application connect using the url in which we replace dbname and password
+dotenv: used to store the password of db and TOKEN_SECRET
+get Uploaded Image: define express.static path, import path, pass the image url in response http://localhost:5000/publiv/upload == static path, then images/image.jpg == img path.
+
+
+FRONTEND
+
+siteContext stores the data using react hook that can be updated and use, in every file just by simply importing.
+localstorage: It holds token and DP url 

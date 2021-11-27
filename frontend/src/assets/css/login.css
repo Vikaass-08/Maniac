@@ -1,0 +1,258 @@
+/* Import fonts from google font */
+@import url("https://fonts.googleapis.com/css?family=Lobster|Montserrat&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variables */
+:root {
+  --primary-gradient: linear-gradient(to right, #4e4376, #2b5876);
+  --mango-gradient: linear-gradient(to right, #ffa751, #ffe259);
+  --text-color: #f7f9f9;
+  --Montserrat: "Montserrat", cursive;
+  --Lobster: "Lobster", cursive;
+  --primary-shadow: 3px 4px 7px rgba(27, 27, 27, 0.534);
+  --border-color: rgba(0, 0, 0, 0.329);
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 100%;
+  box-shadow: var(--primary-gradient);
+  /* max-height: 610px; */
+}
+
+.container .panel {
+  width: 100%;
+  height: 100%;
+  box-shadow: var(--primary-gradient);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 60% 31%;
+  height: 100%;
+  background: #fff;
+}
+
+.liquid {
+  background: url("../../assets/images/Wave1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom -56px right 110px;
+}
+
+.owl-carousel {
+  width: 100%;
+  height: 513px;
+  max-height: 330px;
+  margin-top: 80px;
+}
+
+.owl-carousel .owl-item .login_img {
+  float: right;
+  width: 550px;
+  height: 400px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-right: 5rem;
+}
+
+.owl-dots {
+  position: fixed;
+  padding: 1rem 1.2rem;
+  display: flex !important;
+  flex-direction: column;
+  transform: translateY(-240px);
+}
+
+.owl-dots button {
+  border-radius: 5rem;
+  margin: 0.5rem 0;
+}
+
+.owl-dots button span {
+  background: var(--text-color) !important;
+  margin: 0rem 0.6rem !important;
+}
+
+.owl-dots .active {
+  border: 1px solid #ffd765 !important;
+}
+
+.owl-dots .active span {
+  background: #ffd765 !important;
+  margin: 0.3rem 0.5rem !important;
+}
+
+.follow {
+  padding: 0 1.4rem;
+  padding-top: 1.4rem;
+  font-family: var(--Montserrat);
+  color: #f5f5f5;
+  text-decoration: none;
+  position: relative;
+  font-size: 0.7rem;
+  margin-top: 7rem;
+}
+
+.follow i {
+  margin-right: 2rem;
+}
+
+.follow i:first-child {
+  margin-left: 2rem;
+}
+
+/* Second Column Login */
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4rem;
+  background: rgb(28, 124, 214);
+  color: #fff;
+  font-size: 0.7rem;
+  font-family: var(--Montserrat);
+  box-shadow: var(--primary-shadow);
+  cursor: pointer;
+}
+
+.login form .login-btn-c .btn-login {
+  background: rgb(14, 110, 255);
+  float: right;
+  font-weight: bold;
+  margin-right: 2rem;
+  margin-top: 2rem;
+}
+
+.titles {
+  margin-bottom: 4rem;
+  margin-top: -3rem;
+  margin-left: 5rem;
+  text-align: center;
+}
+#err_msg {
+  margin-top: -15px;
+  margin-bottom: 20px;
+  margin-right: -35px;
+  margin-left: 95px;
+  padding: 17px 46px;
+  background-color: rgba(240, 47, 47, 0.8);
+  color: #fff;
+  border-radius: 42px;
+}
+
+form {
+  height: 55%;
+  max-height: 280px;
+  margin-top: 10rem;
+}
+
+form h3,
+form h6 {
+  font-family: var(--Montserrat);
+  padding: 0;
+  margin: 0;
+  padding-left: 3rem;
+}
+
+form h3 {
+  font-size: 30px;
+  padding-left: 4rem;
+  color: #000000;
+}
+
+form h6 {
+  padding-left: 5rem;
+  /* font-family: var(--Lobster); */
+  color: #000000;
+  font-size: 20px;
+}
+
+form .form-group {
+  text-align: left;
+  border: 1px solid var(--border-color);
+  margin-top: 0.9rem;
+  margin-right: 2rem;
+  margin-left: 3rem;
+  margin-bottom: 2rem;
+  border-radius: 3rem;
+  width: 110%;
+}
+form .form-group:hover {
+  border: 1px solid #001eff;
+}
+
+form .form-group .form-input {
+  width: 90%;
+  height: 1.5rem;
+  padding: 1.7rem 1.5rem;
+  background: transparent;
+  border: none;
+  font-family: var(--Montserrat);
+  font-size: 0.9rem;
+  overflow: hidden;
+}
+
+form input:focus {
+  outline: none;
+}
+
+form .input-icon {
+  display: inline;
+  color: var(--border-color);
+}
+
+form .login-btn-c .btn-login {
+  float: left;
+  outline: none !important;
+  padding: 0.8rem 5rem;
+  margin-left: 5rem;
+}
+
+form .login-btn-c .btn-login:hover {
+  background: #5a8bac;
+  color: #fff;
+}
+
+/* Register form */
+
+.reg-titles {
+  margin-top: -7.5rem;
+  margin-bottom: 2rem;
+  margin-left: 5rem;
+  text-align: center;
+}
+
+.regist-sub {
+  margin-left: 12rem;
+}
+
+.login form .login-btn-c .btn-register {
+  background: rgb(14, 110, 255);
+  font-weight: bold;
+  float: right;
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
+form .login-btn-c .btn-register {
+  float: left;
+  outline: none !important;
+  padding: 1rem 5rem;
+  margin-left: 5rem;
+}
+
+form .login-btn-c .btn-register:hover {
+  background: #5a8bac;
+  color: #fff;
+}

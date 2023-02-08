@@ -19,8 +19,7 @@ const Login = () => {
   });
 
 
-  const [auth, setAuth] = useContext(SiteContext);
-  const [dp, setDp] = useContext(SiteContext);
+  const {auth, setAuth, dp, setDp} = useContext(SiteContext);
 
   const handleInput = (e) => {
     setData({

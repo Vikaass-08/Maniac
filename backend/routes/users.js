@@ -10,7 +10,7 @@ import fs from "fs";
 const router = express.Router();
 
 //Define storage for the images
-const storage = multer.diskStorage({
+const multerStorage = multer.diskStorage({
   destination: (request, file, callback) => {
     callback(null, "./public/uploads/images");
   },
@@ -22,8 +22,8 @@ const storage = multer.diskStorage({
 });
 
 //reject a file
-const filefilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/jpg") {
+const multerFilefilter = (req, file, cb) => {
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/jpg" || file.mimetype === "image/png") {
     cb(null, true);
   } else {
     cb(null, false);
@@ -32,11 +32,11 @@ const filefilter = (req, file, cb) => {
 
 //uploads parameters for multer
 const upload = multer({
-  storage: storage,
+  storage: multerStorage,
   limits: {
     fileSize: 1024 * 1024 * 5,
   },
-  fileFilter: filefilter,
+  fileFilter: multerFilefilter,
 });
 
 router.route("/register").post(async (req, res) => {
@@ -109,7 +109,6 @@ router.route("/login").post(async (req, res) => {
 
 router.post("/updateUser", verify, async (req, res) => {
   const user_id = req.user["_id"];
-  // console.log(req.body);
 
   let updatedUser = {};
   if (req.body.email) updatedUser.email = req.body.email;
@@ -175,7 +174,6 @@ router.get("/updateUser", verify, async (req, res) => {
 router.post("/profile", upload.single("image"), verify, async (req, res) => {
   const user_id = req.user["_id"];
   let profilePic = req.file.path;
-
   User.findById(user_id, function (err, data) {
     // Path for previous profile pic
     const path = data.image;

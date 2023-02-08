@@ -19,7 +19,7 @@ const Register = () => {
     text: "",
     show: false,
   });
-  const [auth, setAuth] = useContext(SiteContext);
+  const {auth, setAuth} = useContext(SiteContext);
 
   const handleInput = (e) => {
     setData({

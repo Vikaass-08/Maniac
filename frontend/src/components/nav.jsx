@@ -5,8 +5,7 @@ import logo from "../assets/images/logoC.svg";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [auth] = useContext(SiteContext);
-  const [dp] = useContext(SiteContext);
+  const {auth, dp, setDp} = useContext(SiteContext);
   return (
     <nav className="navbar">
       <div id="brand">
@@ -38,10 +37,10 @@ const Navbar = () => {
         </li>
 
         <li className="item">
-          {auth ? (
+          {auth && dp ? (
             <Link className="link" to="/profile">
               <div className="nav-img" 
-                style = {{backgroundImage: `url(${dp.replace("public/uploads/", "http://localhost:5000/")})`,
+                style = {{backgroundImage: `url(${dp.toString().replace("public/uploads/", "http://localhost:5000/")})`,
                   backgroundSize: '50px 50px',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',

@@ -6,7 +6,7 @@ import "../../assets/css/profile.css";
 import DP from "../../assets/images/dp.svg";
 
 const Profile = () => {
-  const [dp, setDp] = useContext(SiteContext);
+  const {dp, setDp} = useContext(SiteContext);
     const [data, setData] = useState({
         username: "",
         email: "",
@@ -15,7 +15,6 @@ const Profile = () => {
         age: "",
         image: ""
     });
-    const [imageurl, setImageUrl] = useState('');
 
     const [alert, setAlert] = useState({
       type: "error",
@@ -42,7 +41,7 @@ const Profile = () => {
       formData.append("image",pic);
 
       //update-profile
-      axios.post("http://localhost:5000/users/profile/",formData,{
+      axios.post("http://localhost:5000/users/profile/", formData,{
           headers: {
               "content-type": "application/json",
               "auth-token": localStorage.getItem("auth").replaceAll('"', '')
@@ -50,7 +49,7 @@ const Profile = () => {
       }).then(res=>{
           setData({
             ...data,
-            image: res.data.image,
+            image: JSON.stringify(res.data.image),
           });
 
           localStorage.setItem('dp', JSON.stringify(res.data.image));
@@ -159,9 +158,7 @@ const Profile = () => {
               "auth-token": localStorage.getItem("auth").replaceAll('"', '')
           }
       }).then(res=>{
-          setData(res.data.results);
-          
-          // console.log(res.data.image);
+          setData(res.data.results);   
       })
       .catch(err=>{console.log(err)});
     }
@@ -182,25 +179,11 @@ const Profile = () => {
       .catch(err=>{console.log(err);});
     }
 
-    const changeImageUrl = () => {
-      let url = data.image;
-      let final_url = url.replace("public/uploads/", "http://localhost:5000/");
-      setImageUrl(final_url);
-      console.log(data)
-    }
-
-
  //component did mount
   useEffect(() => {
     loadProfileData();
     loadUserData();
   }, []);
-
-
-  //component did update
-  useEffect(() => {
-    changeImageUrl();
-  }, [data.image]);
 
   const btnSelect = () => {
     document.getElementsByClassName('change-img')[0].click()
@@ -218,7 +201,7 @@ const Profile = () => {
       <div className="profile-container">
         <div className="profile-row">
             <form className="update-form" onSubmit={handleSubmit} encType="multipart/form-data">
-              <div className="image-group" style = {{backgroundImage: `url(${imageurl})`,backgroundSize: '130px 130px',
+              <div className="image-group" style = {{backgroundImage: `url(${dp.toString().replace("public/uploads/", "http://localhost:5000/")})`,backgroundSize: '130px 130px',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center',
                     overflow: 'hidden'

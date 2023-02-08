@@ -1,13 +1,18 @@
-const express = require("express");
-const cors = require("cors");
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import path from 'path';
+import dotenv  from "dotenv"
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
-const mongoose = require("mongoose");
-var path = require("path");
 
 app.use(express.static(path.join(__dirname, "public/uploads")));
 
 // dotenv stores environment variables
-require("dotenv").config();
+dotenv.config();
 const port = process.env.PORT || 5000;
 
 //middleware
@@ -29,9 +34,9 @@ connection.once("open", () => {
 });
 
 // Import Routes
-const exercisesRouter = require("./routes/exercises");
-const usersRouter = require("./routes/users");
-const postRoute = require("./routes/posts");
+import exercisesRouter from "./routes/exercises.js";
+import usersRouter from "./routes/users.js";
+import postRoute from "./routes/posts.js"
 
 // Route Middleware
 app.use("/exercises", exercisesRouter);

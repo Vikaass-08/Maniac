@@ -1,10 +1,13 @@
-const router = require("express").Router();
-const verify = require("./verifyToken");
-let User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const { registerValidation, loginValidation } = require("../validations");
+import express from 'express'
+import verify from "./verifyToken.js";
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import multer from "multer";
+import {registerValidation, loginValidation} from "../validations.js";
+import fs from "fs";
+
+const router = express.Router();
 
 //Define storage for the images
 const storage = multer.diskStorage({
@@ -175,7 +178,6 @@ router.post("/profile", upload.single("image"), verify, async (req, res) => {
 
   User.findById(user_id, function (err, data) {
     // Path for previous profile pic
-    const fs = require("fs");
     const path = data.image;
 
     //check if profile pic is valid
@@ -234,4 +236,4 @@ router.get("/profile", verify, async (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
 // npm install @hapi/joi :  package for validations
 
 // VALIDATION
-const joi = require("@hapi/joi");
+import joi from "@hapi/joi";
 
 // Register Validations
 const registerValidation = (data) => {
@@ -24,5 +24,4 @@ const loginValidation = (data) => {
   return schema.validate(data);
 };
 
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
+export {registerValidation, loginValidation};

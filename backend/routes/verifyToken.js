@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-module.exports = (req, res, next) => {
+const verifyTok = (req, res, next) => {
   const token = req.header("auth-token");
   if (!token) return res.status(401).send("Access denied");
 
@@ -13,3 +13,5 @@ module.exports = (req, res, next) => {
     res.json({ auth: false, message: "You failed to authinticate" });
   }
 };
+
+export default verifyTok;

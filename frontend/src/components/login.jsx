@@ -99,8 +99,10 @@ const Login = () => {
         <>
         <div className="panel">
           <div className="row">
-            <div className="col liquid">
-              <Slider />
+            <div className="liquid">
+              <div className="slider">
+                <Slider />
+              </div>
               <div className="follow">
                 <a
                   style={{ textDecoration: "none", color: "#fff" }}
@@ -132,8 +134,8 @@ const Login = () => {
                 </a>
               </div>
             </div>
-            <div className="col login">
-              <form onSubmit={handleSubmit}>
+            <div className="login">
+              <form onSubmit={handleSubmit} className="login-form">
                 <div className="titles">
                   <h6>We keep everything</h6>
                   <h3>Ready to Login</h3>

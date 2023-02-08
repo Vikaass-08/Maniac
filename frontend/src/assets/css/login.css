@@ -32,29 +32,40 @@
 
 .container .panel {
   width: 100%;
-  height: 100%;
+  height: 90vh;
   box-shadow: var(--primary-gradient);
 }
 
 .row {
   display: grid;
-  grid-template-columns: 60% 31%;
-  height: 100%;
+  grid-template-columns: 60% 40%;
+  height: 100vh;
   background: #fff;
 }
 
 .liquid {
   background: url("../../assets/images/Wave1.png");
-  background-size: cover;
+  background-size:contain;
   background-repeat: no-repeat;
-  background-position: bottom -56px right 110px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.liquid .slider {
+  width: 80%;
+  height: 70vh;
+}
+
+.login {
+  height: 100vh;
 }
 
 .owl-carousel {
   width: 100%;
-  height: 513px;
+  height: 80vh;
   max-height: 330px;
-  margin-top: 80px;
+  margin-top: 7rem;
 }
 
 .owl-carousel .owl-item .login_img {
@@ -94,6 +105,8 @@
 }
 
 .follow {
+  width: 20%;
+  height: 30vh;
   padding: 0 1.4rem;
   padding-top: 1.4rem;
   font-family: var(--Montserrat);
@@ -102,14 +115,15 @@
   position: relative;
   font-size: 0.7rem;
   margin-top: 7rem;
+  display: flex;
 }
 
 .follow i {
-  margin-right: 2rem;
+  margin-right: 4rem;
 }
 
 .follow i:first-child {
-  margin-left: 2rem;
+  margin-left: 3rem;
 }
 
 /* Second Column Login */
@@ -126,9 +140,19 @@
   cursor: pointer;
 }
 
+.login .login-form {
+  height: 100vh;
+  width: 100%;
+}
+
+.login .register-form {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
 .login form .login-btn-c .btn-login {
   background: rgb(14, 110, 255);
-  float: right;
   font-weight: bold;
   margin-right: 2rem;
   margin-top: 2rem;
@@ -136,8 +160,7 @@
 
 .titles {
   margin-bottom: 4rem;
-  margin-top: -3rem;
-  margin-left: 5rem;
+  margin-top: 4rem;
   text-align: center;
 }
 #err_msg {
@@ -151,12 +174,6 @@
   border-radius: 42px;
 }
 
-form {
-  height: 55%;
-  max-height: 280px;
-  margin-top: 10rem;
-}
-
 form h3,
 form h6 {
   font-family: var(--Montserrat);
@@ -167,26 +184,22 @@ form h6 {
 
 form h3 {
   font-size: 30px;
-  padding-left: 4rem;
   color: #000000;
 }
 
 form h6 {
-  padding-left: 5rem;
-  /* font-family: var(--Lobster); */
   color: #000000;
   font-size: 20px;
 }
 
 form .form-group {
-  text-align: left;
   border: 1px solid var(--border-color);
   margin-top: 0.9rem;
   margin-right: 2rem;
   margin-left: 3rem;
   margin-bottom: 2rem;
   border-radius: 3rem;
-  width: 110%;
+  width: 85%;
 }
 form .form-group:hover {
   border: 1px solid #001eff;
@@ -200,7 +213,7 @@ form .form-group .form-input {
   border: none;
   font-family: var(--Montserrat);
   font-size: 0.9rem;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 form input:focus {
@@ -212,11 +225,14 @@ form .input-icon {
   color: var(--border-color);
 }
 
+form .login-btn-c {
+  width: 100%;
+  text-align: center;
+}
+
 form .login-btn-c .btn-login {
-  float: left;
-  outline: none !important;
+  height: 3rem;
   padding: 0.8rem 5rem;
-  margin-left: 5rem;
 }
 
 form .login-btn-c .btn-login:hover {
@@ -226,27 +242,23 @@ form .login-btn-c .btn-login:hover {
 
 /* Register form */
 
-.reg-titles {
-  margin-top: -7.5rem;
-  margin-bottom: 2rem;
-  margin-left: 5rem;
-  text-align: center;
+.regist-sub {
+  margin-top: 3rem;
 }
 
-.regist-sub {
-  margin-left: 12rem;
+.reg-titles {
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+  text-align: center;
 }
 
 .login form .login-btn-c .btn-register {
   background: rgb(14, 110, 255);
   font-weight: bold;
-  float: right;
-  margin-right: 2rem;
-  margin-top: 1rem;
+  margin: 0 auto;
 }
 
 form .login-btn-c .btn-register {
-  float: left;
   outline: none !important;
   padding: 1rem 5rem;
   margin-left: 5rem;

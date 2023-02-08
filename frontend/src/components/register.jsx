@@ -104,8 +104,10 @@ const Register = () => {
       <div className="panel">
         <>
         <div className="row">
-          <div className="col liquid">
-            <Slider />
+          <div className="liquid">
+            <div className="slider">
+                <Slider />
+            </div>
             <div className="follow">
               <a
                 style={{ textDecoration: "none", color: "#fff" }}
@@ -137,8 +139,8 @@ const Register = () => {
               </a>
             </div>
           </div>
-          <div className="col login">
-            <form onSubmit={handleSubmit}>
+          <div className="login">
+            <form onSubmit={handleSubmit} className="register-form">
               <div className="reg-titles">
                 <h6>What are you waiting for?</h6>
                 <h3>Register Now</h3>

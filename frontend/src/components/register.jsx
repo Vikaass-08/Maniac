@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import Slider from "./common/slider";
 import "../assets/css/login.css";
 import SweetAlertComponent from "./common/SweetAlertComponent";
+import axios from "axios";
 
 const Register = () => {
   const [data, setData] = useState({
@@ -28,24 +29,21 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (event) => {
-    if (!localStorage.getItem("auth")) {
-      event.preventDefault();
-    }
-    fetch("http://localhost:5000/users/register/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const registerData = 
+      JSON.stringify({
         username: data.username,
         email: data.email,
         password: data.password,
-      }),
-    }).then((result) => {
-      result.json().then((resp) => {
-        if (resp.user) {
+      });
+
+    await axios.post("http://localhost:5000/users/register/", registerData, {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((resp) => {
+        if (resp.data.user) {
           setAlert({
             type: "success",
             title: "Register",
@@ -58,7 +56,7 @@ const Register = () => {
             password: "",
             c_password: "",
           });
-        } else if(resp.msg)  {
+        } else if(resp.data.msg)  {
             setAlert({
               type: "error",
               title: "Register",
@@ -74,7 +72,15 @@ const Register = () => {
             show: true,
           });
         }
+    })
+    .catch (err => {
+      setAlert({
+        type: "error",
+        title: "Register",
+        text: "Something went wrong",
+        show: true,
       });
+      console.log("Register User Error", err);
     });
   };
 

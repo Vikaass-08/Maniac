@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import Slider from "./common/slider";
 import "../assets/css/login.css";
 import SweetAlertComponent from "./common/SweetAlertComponent";
+import axios from "axios"
 
 const Login = () => {
   const [data, setData] = useState({
@@ -28,33 +29,29 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (event) => {
-    fetch("http://localhost:5000/users/login/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: data.username,
-        password: data.password,
-      }),
-    }).then((result) => {
-      result.json().then((resp) => {
-        if (resp.token) {
-          localStorage.setItem("auth", JSON.stringify(resp.token));
-          localStorage.setItem("dp", JSON.stringify(resp.image));
-          setAuth(localStorage.getItem("auth"));
-          setDp(localStorage.getItem("dp"));
-        } else if(resp.msg) {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let strigifyData = JSON.stringify({
+      username: data.username,
+      password: data.password,
+    });
+    await axios.post("http://localhost:5000/users/login/", strigifyData, {
+          headers: {
+            "Content-Type": "application/json",
+          }
+      }).then(resp =>{
+        if (resp.data.token) {
+          localStorage.setItem("auth", JSON.stringify(resp.data.token));
+          localStorage.setItem("dp", JSON.stringify(resp.data.image));
+          setAuth(JSON.stringify(resp.data.token));
+          setDp(JSON.stringify(resp.data.image));
+        } else if(resp.data.msg) {
           setAlert({
             type: "error",
             title: "Login",
-            text: resp.msg,
+            text: resp.data.msg,
             show: true,
           });
-    
-          // setData({ message: "Invalid username and password." });
         }
         else{
           setAlert({
@@ -64,11 +61,15 @@ const Login = () => {
             show: true,
           });
         }
+      }).catch(err=>{
+        setAlert({
+          type: "error",
+          title: "Login",
+          text: "Something went wrong!!",
+          show: true,
+        });
+        console.log("Login Error", err);
       });
-    });
-    if (!localStorage.getItem("auth")) {
-      event.preventDefault();
-    }
   };
 
   const sweetAlertClose = () => {
@@ -92,7 +93,7 @@ const Login = () => {
 
   return (
     <div className="container">
-      {auth ? (
+      {auth && dp ? (
         <Redirect to="/"></Redirect>
       ) : (
         <>

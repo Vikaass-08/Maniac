@@ -5,7 +5,7 @@ import logo from "../assets/images/logoC.svg";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const {auth, dp, setDp} = useContext(SiteContext);
+  const {auth, dp} = useContext(SiteContext);
   return (
     <nav className="navbar">
       <div id="brand">
@@ -26,7 +26,7 @@ const Navbar = () => {
           {auth ? (
             <Link className="link" to="/logout">
               <div className="nav-img" style={{textAlign:"center"}}>
-              <i class="fa fa-sign-out fa-lg" style={{marginTop:"14px"}} aria-hidden="true"></i>
+              <i className="fa fa-sign-out fa-lg" style={{marginTop:"14px"}} aria-hidden="true"></i>
               </div>
             </Link>
           ) : (
@@ -40,7 +40,7 @@ const Navbar = () => {
           {auth && dp ? (
             <Link className="link" to="/profile">
               <div className="nav-img" 
-                style = {{backgroundImage: `url(${dp.toString().replace("public/uploads/", "http://localhost:5000/")})`,
+                style = {{backgroundImage: `url(${dp?.toString().replace("public/uploads/", "http://localhost:5000/")})`,
                   backgroundSize: '50px 50px',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',

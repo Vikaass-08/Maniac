@@ -39,7 +39,7 @@ const upload = multer({
   fileFilter: multerFilefilter,
 });
 
-router.route("/register").post(async (req, res) => {
+router.post("/register", async (req, res) => {
   // Let's validate the data
   const data = registerValidation(req.body);
   if (data.error)
@@ -71,7 +71,7 @@ router.route("/register").post(async (req, res) => {
   }
 });
 
-router.route("/login").post(async (req, res) => {
+router.post("/login", async (req, res) => {
   // Let's validate the data
   const data = loginValidation(req.body);
   if (data.error)

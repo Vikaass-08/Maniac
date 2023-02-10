@@ -3,11 +3,12 @@ import { SiteContext } from "./SiteContext";
 import { Redirect } from "react-router-dom";
 
 const Logout = () => {
-  const {auth, setAuth} = useContext(SiteContext);
+  const {auth, setAuth, setDp} = useContext(SiteContext);
 
   useEffect(() => {
     localStorage.clear();
     setAuth(null);
+    setDp(null);
   });
 
   return (

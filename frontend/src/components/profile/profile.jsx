@@ -7,181 +7,166 @@ import DP from "../../assets/images/dp.svg";
 
 const Profile = () => {
   const {dp, setDp} = useContext(SiteContext);
-    const [data, setData] = useState({
-        username: "",
-        email: "",
-        phone: "",
-        name: "",
-        age: "",
-        image: ""
+  const [data, setData] = useState({
+      username: "",
+      email: "",
+      phone: "",
+      name: "",
+      age: "",
+      image: ""
+  });
+
+  const [alert, setAlert] = useState({
+    type: "error",
+    title: "Update",
+    text: "",
+    show: false,
+  });
+
+  const updateInputOnChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const [alert, setAlert] = useState({
-      type: "error",
-      title: "Update",
-      text: "",
-      show: false,
-    });
+  const changeProfileImage = (event) => {
+    event.preventDefault();
+    UpdateProfileHandler(event.target.files[0]);
+  };
 
-    const handleInput = (e) => {
-      setData({
-        ...data,
-        [e.target.name]: e.target.value,
-      });
-    };
+  const UpdateProfileHandler= async (pic) => {
 
-    const changeProfileImage=(event)=>{
-      UpdateProfileHandler(event.target.files[0]);
-    };
+    // Create object of form data
+    const formData = new FormData();
+    formData.append("image",pic);
 
-    const UpdateProfileHandler=(pic)=>{
-      // e.preventDefault();
-      //create object of form data
-      const formData=new FormData();
-      formData.append("image",pic);
+    // Updata Profile Pic
+    await axios.post("http://localhost:5000/users/profile/", formData,{
+        headers: {
+            "content-type": "application/json",
+            "auth-token": localStorage.getItem("auth").replaceAll('"', '')
+        }
+    }).then(res=> {
+        setData({
+          ...data,
+          image: JSON.stringify(res.data.image),
+        });
 
-      //update-profile
-      axios.post("http://localhost:5000/users/profile/", formData,{
-          headers: {
-              "content-type": "application/json",
-              "auth-token": localStorage.getItem("auth").replaceAll('"', '')
-          }
-      }).then(res=>{
-          setData({
-            ...data,
-            image: JSON.stringify(res.data.image),
+        localStorage.setItem('dp', JSON.stringify(res.data.image));
+        setDp(localStorage.getItem("dp"));
+
+        setAlert({
+            type: "success",
+            title: "Profile",
+            text: "Profile Pic Updated",
+            show: true,
           });
+    })
+    .catch(err=>{console.log(err);
+      setAlert({
+        type: "error",
+        title: "Profile",
+        text: "Something went wrong, try again!!",
+        show: true,
+      });   
+    });
 
-          localStorage.setItem('dp', JSON.stringify(res.data.image));
-          setDp(localStorage.getItem("dp"));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const finalData = JSON.stringify({
+      username: data.username,
+      email: data.email,
+      phone: data.phone,
+      name: data.name,
+      age: data.age,
+    });
+
+    await axios.post("http://localhost:5000/users/updateUser/", finalData, {
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("auth").replaceAll('"', '')
+      },
+    }).then((resp) => {
+        if (resp.data.status == "success") {
+          
+          if(Object.keys(resp.data.results).length != 0){
+            setData(resp.data.results);
+          }
 
           setAlert({
-              type: "success",
-              title: "Profile",
-              text: "Profile Pic Updated",
-              show: true,
-            });
-      })
-      .catch(err=>{console.log(err);
-        setAlert({
-          type: "error",
-          title: "Profile",
-          text: "Something went wrong, try again!!",
-          show: true,
-        });   
+            type: "success",
+            title: "Profile",
+            text: "User detail has been updated",
+            show: true,
+          });
+        }
+        else {
+          setAlert({
+            type: "error",
+            title: "Profile",
+            text: "Something went wrong, try again!!",
+            show: true,
+          });
+        }
+    })
+    .catch(err => {
+      setAlert({
+        type: "error",
+        title: "Profile",
+        text: "Something went wrong, try again!!",
+        show: true,
       });
-    };
+    });
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const finalData = {
-        username: data.username,
-        email: data.email,
-        phone: data.phone,
-        name: data.name,
-        age: data.age,
-      };
+  };
 
-      let dataAfter = {};
-      
-      await fetch("http://localhost:5000/users/updateUser/", {
-        method: "POST",
-        mode: 'cors',
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("auth").replaceAll('"', '')
+  const sweetAlertClose = () => {
+    if (alert.type === "error") {
+      setAlert({
+        type: "error",
+        title: "Register",
+        text: "",
+        show: false,
+      });
+      return;
+    } else {
+      setAlert(
+        { 
+          type: "error", 
+          title: "Register", 
+          text: "", 
+          show: false 
         },
-        body: JSON.stringify(finalData),
-      }).then((result) => {
-        result.json().then((resp) => {
-          if (resp.status == "success") {
-            dataAfter = resp.results;
-            // setData(
-            //   resp.results,
-            // );
-            setAlert({
-              type: "success",
-              title: "Profile",
-              text: "User detail has been updated",
-              show: true,
-            });
-         
-          } else if(resp.status == "failed")  {
-              setAlert({
-                type: "error",
-                title: "Profile",
-                text: "Something went wrong, try again!!",
-                show: true,
-              });         
-          }
-          else{
-            setAlert({
-              type: "error",
-              title: "Profile",
-              text: "Something went wrong, try again!!",
-              show: true,
-            });
-          }
-        });
-      });
-
-      if(Object.keys(dataAfter).length != 0){
-        setData(
-          dataAfter,
-        );
-      }
-
-    };
-
-    const sweetAlertClose = () => {
-      if (alert.type === "error") {
-        setAlert({
-          type: "error",
-          title: "Register",
-          text: "",
-          show: false,
-        });
-        return;
-      } else {
-        setAlert(
-          { type: "error", title: "Register", text: "", show: false },
-          () => this.props.history.push("/Register")
-        );
-        return;
-      }
-    };
-
-    const loadProfileData = async () => {
-      await axios.get("http://localhost:5000/users/profile/",{
-          headers: {
-              "content-type": "application/json",
-              "auth-token": localStorage.getItem("auth").replaceAll('"', '')
-          }
-      }).then(res=>{
-          setData(res.data.results);   
-      })
-      .catch(err=>{console.log(err)});
+        () => this.props.history.push("/Register")
+      );
+      return;
     }
+  };
 
-    const loadUserData = async () => {
-      await axios.get("http://localhost:5000/users/updateUser/",{
-          headers: {
-              "content-type": "application/json",
-              "auth-token": localStorage.getItem("auth").replaceAll('"', '')
-          }
-      }).then(res=>{
-        // console.log(res.data.results)
-          setData(
-            res.data.results,
-          );
-          
-      })
-      .catch(err=>{console.log(err);});
-    }
+  const loadUserData = async () => {
+    await axios.get("http://localhost:5000/users/updateUser/",{
+      headers: {
+        "content-type": "application/json",
+        "auth-token": localStorage.getItem("auth").replaceAll('"', '')
+      }
+    }).then(res=>{
+      setData(
+        res.data.results,
+      );
+      if(res.data.result?.image) setDp(res.data.results.image);
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+    
+  }
 
- //component did mount
+  //component did mount
   useEffect(() => {
-    loadProfileData();
     loadUserData();
   }, []);
 
@@ -194,7 +179,7 @@ const Profile = () => {
       <span className="item-dp">
           <div className="circle-one circle"></div>
           <div className="circle-two circle"></div>
-          <img src={DP} alt="" />
+          <img src={DP} alt="brand-logo" />
           <div className="circle-three circle"></div>
           <div className="circle circle-four"></div>
       </span>
@@ -207,7 +192,7 @@ const Profile = () => {
                     overflow: 'hidden'
                     }}
               >
-                <button type="button" id="newbtn" className="edit-img" onClick={btnSelect}><i class="fas fa-edit i-edit"></i></button>
+                <button type="button" id="newbtn" className="edit-img" onClick={btnSelect}><i className="fas fa-edit i-edit"></i></button>
                 <input
                   type="file"
                   name="image"
@@ -226,9 +211,9 @@ const Profile = () => {
                   name="username"
                   className="form-in"
                   autoComplete="off"
-                  value={data.username}
-                  onChange={handleInput}
-                  spellcheck="false"
+                  value={data.username.toString()}
+                  onChange={updateInputOnChange}
+                  spellCheck="false"
                 />
                 <span className="input-icon">
                   <i className="fas fa-user-circle fa-lg"></i>
@@ -241,9 +226,9 @@ const Profile = () => {
                   name="email"
                   className="form-in"
                   autoComplete="off"
-                  value={data.email}
-                  onChange={handleInput}
-                  spellcheck="false"
+                  value={data.email.toString()}
+                  onChange={updateInputOnChange}
+                  spellCheck="false"
                 />
                 <span className="input-icon">
                   <i className="fas fa-envelope fa-lg"></i>
@@ -256,9 +241,9 @@ const Profile = () => {
                   name="age"
                   autoComplete="off"
                   className="form-in"
-                  value={data.age}
-                  onChange={handleInput}
-                  spellcheck="false"
+                  value={data.age.toString()}
+                  onChange={updateInputOnChange}
+                  spellCheck="false"
                 />
                 <span className="input-icon">
                   <i className="fas fa-birthday-cake fa-lg"></i>
@@ -271,9 +256,9 @@ const Profile = () => {
                   name="name"
                   autoComplete="off"
                   className="form-in"
-                  value={data.name}
-                  onChange={handleInput}
-                  spellcheck="false"
+                  value={data.name.toString()}
+                  onChange={updateInputOnChange}
+                  spellCheck="false"
                 />
                 <span className="input-icon">
                   <i className="fas fa-user fa-lg"></i>
@@ -287,9 +272,9 @@ const Profile = () => {
                   name="phone"
                   autoComplete="off"
                   className="form-in"
-                  value={data.phone}
-                  onChange={handleInput}
-                  spellcheck="false"
+                  value={data.phone.toString()}
+                  onChange={updateInputOnChange}
+                  spellCheck="false"
                 />
                 <span className="input-icon">
                   <i className="fas fa-phone fa-lg"></i>
@@ -299,7 +284,7 @@ const Profile = () => {
               <div className="login-btn">
                 <input
                   type="submit"
-                  value="Register"
+                  value="Submit"
                   className="submit-input"
                   style={{ marginTop: "-10px" }}
                 />

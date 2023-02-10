@@ -1,33 +1,36 @@
 import express from 'express'
 import Exercise from "../models/exercise.model.js";
+import verify from "./verifyToken.js"
 const router = express.Router();
 
-router.route("/").get((req, res) => {
+router.get("/", verify, async (req, res) => {
   Exercise.find()
     .then((exercises) => res.json(exercises))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post((req, res) => {
-  const username = req.body.username;
+router.post("/add", verify, async (req, res) => {
+  const exerciseName = req.body.exerciseName;
   const description = req.body.description;
   const duration = Number(req.body.duration);
   const date = Date.parse(req.body.date);
-
   const newExercise = new Exercise({
-    username,
+    exerciseName,
     description,
     duration,
     date,
   });
+  
+  try {
+    const savedExercise = await newExercise.save()
+    res.send({ data : savedExercise, status : "sucess" });
+  } catch (err) {
+    res.status(400).json({ msg: err });
+  }
 
-  newExercise
-    .save()
-    .then(() => res.json("Exercise added!"))
-    .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").get((req, res) => {
+router.get("/:id", verify, async (req, res) => {
   Exercise.findById(req.params.id)
     .then((exercise) => res.json(exercise))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -39,10 +42,10 @@ router.route("/:id").delete((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/update/:id").post((req, res) => {
+router.post("/update/:id", verify, async (req, res) => {
   Exercise.findById(req.params.id)
     .then((exercise) => {
-      exercise.username = req.body.username;
+      exercise.exerciseName = req.body.exerciseName;
       exercise.description = req.body.description;
       exercise.duration = Number(req.body.duration);
       exercise.date = Date.parse(req.body.date);

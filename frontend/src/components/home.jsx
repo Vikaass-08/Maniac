@@ -5,8 +5,8 @@ const Home = () => {
   return (
     <div className="contain">
       <div id="heading">
-        <h1 class="heading" style={{marginBottom: "10px"}}>Welcome To The Other Side</h1>
-        <h5 class="moto">Play and Enjoy</h5>
+        <h1 className="heading" style={{marginBottom: "10px"}}>Welcome To The Other Side</h1>
+        <h5 className="moto">Play and Enjoy</h5>
       </div>
       <div id="images">
         <div className="img" id="quiz"></div>

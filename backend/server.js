@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-console.log("vikas", __dirname)
 app.use(express.static(path.join(__dirname, "public/uploads")));
 
 // dotenv stores environment variables
